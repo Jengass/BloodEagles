@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContrixScripts | Tech Hub</title>
+    <style>
+        /* Кастомный футуристичный курсор с наивысшим приоритетом отображения */
+        body, button, a, div, span, li {
+            cursor: none !important;
+        }
+        #custom-cursor {
+            width: 8px;
+            height: 8px;
+            background: #ff007f;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 200000;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        #custom-cursor-blur {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 0, 127, 0.4);
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 199999;
+            transition: transform 0.08s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
+        }
+
+        /* Премиальный технологичный экран загрузки */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020105;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .loader-container {
+            text-align: center;
+        }
+        .loader-logo {
+            font-size: 2.8rem;
+            font-weight: 900;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(90deg, #ff007f, #7209b7, #4cc9f0);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 6px;
+            margin-bottom: 30px;
+            animation: pulse 1.8s infinite alternate, shineText 3s linear infinite;
+        }
+        .loader-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+        .loader-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #ff007f, #4cc9f0);
+            animation: loadProgress 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes loadProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        /* Окно динамического ротатора преимуществ */
+        .ticker-window {
+            background: rgba(114, 9, 183, 0.04);
+            border: 1px solid rgba(114, 9, 183, 0.25);
+            max-width: 450px;
+            margin: 20px auto 0 auto;
+            height: 45px;
+            overflow: hidden;
+            border-radius: 4px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .ticker-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .ticker-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #4cc9f0;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
+        }
+        .ticker-item span {
+            color: #ff007f;
+            margin-right: 8px;
+        }
+        .ticker-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .ticker-item.exit {
+            opacity: 0;
+            transform: translateY(-100%);
+        }
+
+        /* Фон и глобальная разметка */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        body {
+            background-color: #040209;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .main-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Минималистичная технологичная шапка */
+        header {
+            text-align: center;
+            padding: 40px 0 30px 0;
+        }
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff007f, #b5179e, #7209b7, #4cc9f0);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            animation: shineText 6s linear infinite;
+        }
+        @keyframes shineText {
+            to { background-position: 200% center; }
+        }
+        .tagline {
+            color: #797193;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+        /* Строгий информационный баннер */
+        .notice-banner {
+            background: rgba(255, 0, 127, 0.02);
+            border: 1px solid rgba(255, 0, 127, 0.2);
+            padding: 16px;
+            text-align: center;
+            color: #ff007f;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            border-radius: 4px;
+        }
+
+        /* Модуль опыта */
+        .tech-experience {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+        .tech-box {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 30px;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .tech-box:hover {
+            background: rgba(114, 9, 183, 0.03);
+            border-color: rgba(114, 9, 183, 0.4);
+            transform: translateY(-4px);
+        }
+        .tech-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff007f;
+            transition: width 0.3s ease;
+        }
+        .tech-box:hover::before {
+            width: 40px;
+        }
+        .tech-box h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .tech-box p {
+            color: #4cc9f0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Вкладки навигации */
+        .nav-switchers {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 15px;
+        }
+        .switch-tab {
+            background: transparent;
+            border: none;
+            color: #5d5579;
+            padding: 10px 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .switch-tab:hover {
+            color: #ffffff;
+        }
+        .switch-tab.active {
+            color: #ff007f;
+        }
+        .switch-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #ff007f;
+        }
+        .panel-content {
+            display: none;
+            animation: panelFade 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        .panel-content.active {
+            display: block;
+        }
+        @keyframes panelFade {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Сетка цен и портфолио */
+        .service-layout, .portfolio-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+        }
+        .service-card, .portfolio-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .service-card:hover, .portfolio-card:hover {
+            border-color: rgba(255, 0, 127, 0.3);
+            background: rgba(4, 2, 9, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-6px);
+        }
+        .card-header h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        .card-price {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        .card-price span {
+            font-size: 1rem;
+            color: #5d5579;
+            font-weight: 400;
+            margin-left: 5px;
+        }
+        .card-desc {
+            color: #9088ab;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            min-height: 50px;
+        }
+        .tech-spec-list {
+            list-style: none;
+            margin-bottom: 35px;
+        }
+        .tech-spec-list li {
+            font-size: 0.9rem;
+            color: #c0b9da;
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .tech-spec-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 1px;
+            background: #4cc9f0;
+        }
+        /* Большое детализированное окно правил для покупателей */
+        .rules-layout {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            padding: 45px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .rules-section {
+            margin-bottom: 35px;
+        }
+        .rules-section:last-child {
+            margin-bottom: 0;
+        }
+        .rules-section-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ff007f;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 0, 127, 0.15);
+            padding-bottom: 8px;
+        }
+        .rules-paragraph-list {
+            list-style: none;
+        }
+        .rules-paragraph-list li {
+            font-size: 0.95rem;
+            color: #b1a9cd;
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.7;
+        }
+        .rules-paragraph-list li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: #4cc9f0;
+            font-size: 0.75rem;
+            top: 2px;
+        }
+        .rules-paragraph-list li strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .rules-paragraph-list li mark {
+            background: transparent;
+            color: #ff007f;
+            font-weight: 700;
+        }
+
+        .action-trigger {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 16px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+        .action-trigger:hover {
+            background: #ffffff;
+            color: #040209;
+            border-color: #ffffff;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+        }
+        .premium-trigger {
+            border-color: #ff007f;
+            color: #ff007f;
+        }
+        .premium-trigger:hover {
+            background: #ff007f;
+            color: #ffffff;
+            border-color: #ff007f;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.4);
+        }
+
+        /* Системный терминальный интерфейс модального окна */
+        .system-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 1, 5, 0.96);
+            backdrop-filter: blur(12px);
+            z-index: 100000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .system-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .overlay-box {
+            background: #090611;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 50px;
+            border-radius: 4px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .system-overlay.active .overlay-box {
+            transform: scale(1) translateY(0);
+        }
+        .overlay-box h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        .overlay-box p {
+            color: #9088ab;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Продвинутая плашка Discord */
+        .terminal-contact {
+            background: linear-gradient(135deg, #0d091f, #040209);
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 35px;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        .terminal-contact-label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #ff007f;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            font-family: monospace;
+        }
+        .terminal-contact-tag {
+            color: #4cc9f0;
+            font-family: monospace;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+        .terminal-contact:hover {
+            border-color: #ff007f;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.25);
+            background: linear-gradient(135deg, #160f33, #070412);
+        }
+        .terminal-contact::after {
+            content: "Клик для копирования";
+            position: absolute;
+            bottom: 4px;
+            right: 10px;
+            font-size: 0.65rem;
+            color: #5d5579;
+            text-transform: uppercase;
+            font-family: sans-serif;
+        }
+
+        .exit-trigger {
+            background: transparent;
+            border: none;
+            color: #5d5579;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: underline;
+        }
+        .exit-trigger:hover {
+            color: #ffffff;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
+        @keyframes pulse { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- Элементы кастомного интерфейса -->
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-blur"></div>
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="loader-logo">ContrixScripts</div>
+            <div class="loader-bar"><div class="loader-line"></div></div>
+        </div>
+    </div>
+
+    <!-- Окно анимационного ротатора преимуществ (смена каждые 5 сек) -->
+    <div class="ticker-window">
+        <div class="ticker-wrapper" id="tickerWrapper">
+            <div class="ticker-item active"><span>■</span> Выгодные расценки</div>
+            <div class="ticker-item"><span>■</span> Эксклюзивные 3D-модели</div>
+            <div class="ticker-item"><span>■</span> Гарантированная чистая оптимизация</div>
+            <div class="ticker-item"><span>■</span> Безопасность сделок по договору</div>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <header>
+            <h1>ContrixScripts</h1>
+            <div class="tagline">Высокотехнологичная инженерия и трехмерное моделирование</div>
+        </header>
+
+        <div class="container">
+            <div class="notice-banner">
+                Внимание: скидочные программы не предусмотрены для всех типов услуг
+            </div>
+
+            <section class="tech-experience">
+                <div class="tech-box">
+                    <h3>Luau Developer</h3>
+                    <p>Стаж работы: 2 года</p>
+                </div>
+                <div class="tech-box">
+                    <h3>Python Developer</h3>
+                    <p>Стаж работы: 1 год</p>
+                </div>
+                <div class="tech-box">
+                    <h3>3D Modeler</h3>
+                    <p>Стаж работы: 1.5 года</p>
+                </div>
+            </section>
+
+            <div class="nav-switchers">
+                <button class="switch-tab active" onclick="changePanel('pricing')">Услуги и Тарифы</button>
+                <button class="switch-tab" onclick="changePanel('portfolio')">Реализованные Проекты</button>
+                <button class="switch-tab" onclick="changePanel('rules')">Правила</button>
+            </div>
+
+            <!-- Вкладка 1: Тарифы -->
+            <div id="pricing" class="panel-content active">
+                <div class="service-layout">
+                    <div class="service-card">
+                        <div class="card-header">
+                            <h2>Различные Скрипты</h2>
+                            <div class="card-price">от 500₽<span>+</span></div>
+                            <div class="card-desc">Создание модульных скриптов под индивидуальные технические требования.</div>
+                        </div>
+                        <ul class="tech-spec-list">
+                            <li>Официальное подписание соглашения сторон</li>
+                            <li>Чистая программная архитектура</li>
+                            <li>Полное документирование логики кода</li>
+                            <li>Комплексное устранение неисправностей</li>
+                        </ul>
+                        <button class="action-trigger" onclick="launchModal('Спецификация: Скрипты')">Контракт</button>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="card-header">
+                            <h2>Карта RP Города</h2>
+                            <div class="card-price">от 2500₽<span>+</span></div>
+                            <div class="card-desc">Разработка структуры мегаполиса со специализированной разметкой объектов.</div>
+                        </div>
+                        <ul class="tech-spec-list">
+                            <li>Официальное подписание соглашения сторон</li>
+                            <li>Уникальный план зонирования кварталов</li>
+                            <li>Эксклюзивные авторские трехмерные модели</li>
+                            <li>Оптимизация под высокие нагрузки графики</li>
+                        </ul>
+                        <button class="action-trigger premium-trigger" onclick="launchModal('Спецификация: RP Карта')">Контракт</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка 2: Портфолио -->
+            <div id="portfolio" class="panel-content">
+                <div class="portfolio-layout">
+                    <div class="portfolio-card">
+                        <div class="card-header">
+                            <h2>Модули Кастомизации</h2>
+                            <div class="card-desc">Проектирование систем динамических интерфейсов инвентарей и структур персонализации данных.</div>
+                        </div>
+                    </div>
+                    <div class="portfolio-card">
+                        <div class="card-header">
+                            <h2>Транспортные Системы</h2>
+                            <div class="card-desc">Программирование алгоритмов контроля физики объектов и симуляционных систем калибровки параметров.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Вкладка 3: Большое окно правил -->
+            <div id="rules" class="panel-content">
+                <div class="rules-layout">
+                    
+                    <div class="rules-section">
+                        <div class="rules-section-title">1. Политика возврата денежных средств</div>
+                        <ul class="rules-paragraph-list">
+                            <li>Возврат финансовых средств <mark>категорически не производится</mark> после того, как исполнитель утвердил техническое задание и приступил к написанию кода или моделированию.</li>
+                            <li>Покупатель соглашается с тем, что потраченное время разработчика и бронирование слота под проект компенсируются в полном объёме за счёт первичных взносов или обязательств, аннулируя возможность возврата.</li>
+                        </ul>
+                    </div>
+
+                    <div class="rules-section">
+                        <div class="rules-section-title">2. Регламент и этапы выполнения сделки</div>
+                        <ul class="rules-paragraph-list">
+                            <li>Разработка строится строго по прозрачному поэтапному циклу: <strong>Сначала демонстрация готового продукта $\rightarrow$ Затем оплата $\rightarrow$ Затем передача файлов</strong>.</li>
+                            <li>Исполнитель полностью разрабатывает скрипт или карту, предоставляет детальные видеоматериалы или организует демонстрационный показ на тестовом сервере.</li>
+                            <li>Покупатель, убедившись в полном соответствии выполненной работы изначально утверждённому ТЗ, производит <strong>100% оплату</strong>, после чего получает исходный код или архивы с моделями.</li>
+                        </ul>
+                    </div>
+
+                    <div class="rules-section">
+                        <div class="rules-section-title">3. Техническое задание и внесение изменений</div>
+                        <ul class="rules-paragraph-list">
+                            <li>Все требования к проекту должны быть зафиксированы в письменном виде до начала работы. Любые устные договорённости не имеют юридической и фактической силы.</li>
+                            <li>Правки, направленные на исправление несоответствий с изначальным ТЗ, выполняются <strong>бесплатно</strong> в рамках договора.</li>
+                            <li>Любые новые идеи, расширения функционала, добавление новых систем или изменение структуры карты, возникшие в процессе работы или после её демонстрации, <mark>оплачиваются отдельно</mark> по новому тарифу.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="systemModal" class="system-overlay">
+        <div class="overlay-box">
+            <h2 id="modalHeadline">Регистрация сделки</h2>
+            <p>Любые коммерческие взаимодействия осуществляются строго на основании договора сторон, определяющего фиксированную стоимость и регламент сдачи задач.</p>
+            <p style="color: #5d5579; font-size: 0.85rem; margin-bottom: 12px;">Для отправки технического задания скопируйте имя аккаунта в Discord и создайте чат:</p>
+            
+            <div class="terminal-contact" id="discordBox" onclick="processCopy()">
+                <span class="terminal-contact-label">Официальный контактный аккаунт</span>
+                <span class="terminal-contact-tag">contrix_offical</span>
+            </div>
+            
+            <button class="exit-trigger" onclick="dismissModal()">Отмена</button>
+        </div>
+    </div>
+
+    <script>
+        const dot = document.getElementById('custom-cursor');
+        const blur = document.getElementById('custom-cursor-blur');
+        
+        // Постоянное отслеживание координат кастомного курсора в любой точке
+        document.addEventListener('mousemove', (e) => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            setTimeout(() => {
+                blur.style.left = e.clientX + 'px';
+                blur.style.top = e.clientY + 'px';
+            }, 30);
+        });
+
+        // Функция обновления событий наведения для динамических и статических элементов
+        function applyCursorHovers() {
+            document.querySelectorAll('button, .terminal-contact, .switch-tab, li').forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    dot.style.transform = 'translate(-50%, -50%) scale(2)';
+                    dot.style.backgroundColor = '#4cc9f0';
+                    blur.style.width = '55px';
+                    blur.style.height = '55px';
+                    blur.style.borderColor = '#4cc9f0';
+                });
+                item.addEventListener('mouseleave', () => {
+                    dot.style.transform = 'translate(-50%, -50%) scale(1)';
+                    dot.style.backgroundColor = '#ff007f';
+                    blur.style.width = '40px';
+                    blur.style.height = '40px';
+                    blur.style.borderColor = 'rgba(255, 0, 127, 0.4)';
+                });
+            });
+        }
+        applyCursorHovers();
+
+        // Логика работы автоматического ротатора окна преимуществ (каждые 5 сек)
+        const tickerItems = document.querySelectorAll('.ticker-item');
+        let currentTickerIndex = 0;
+
+        setInterval(() => {
+            let nextIndex = (currentTickerIndex + 1) % tickerItems.length;
+            
+            tickerItems[currentTickerIndex].classList.remove('active');
+            tickerItems[currentTickerIndex].classList.add('exit');
+            
+            tickerItems[nextIndex].classList.add('active');
+            
+            setTimeout(() => {
+                tickerItems[currentTickerIndex].classList.remove('exit');
+                currentTickerIndex = nextIndex;
+            }, 600);
+        }, 5000);
+
+        // Движок частиц Canvas
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if(this.x > canvas.width) this.x = 0;
+                if(this.x < 0) this.x = canvas.width;
+                if(this.y > canvas.height) this.y = 0;
+                if(this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(114, 9, 183, 0.15)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for(let i=0; i<65; i++) { particles.push(new Particle()); }
+
+        function renderEngine() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(renderEngine);
+        }
+        renderEngine();
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('preloader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 800);
+            }, 1400);
+        });
+
+        function changePanel(panelId) {
+            document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.switch-tab').forEach(b => b.classList.remove('active'));
+            document.getElementById(panelId).classList.add('active');
+            event.currentTarget.classList.add('active');
+            applyCursorHovers();
+        }
+
+        // Продвинутая защита исходного кода
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(e.key)) || 
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        const modal = document.getElementById('systemModal');
+        function launchModal(title) {
+            document.getElementById('modalHeadline').innerText = title;
+            modal.classList.add('active');
+            applyCursorHovers();
+        }
+        function dismissModal() { modal.classList.remove('active'); }
+        window.onclick = function(e) { if(e.target == modal) dismissModal(); }
+
+        function processCopy() {
+            navigator.clipboard.writeText("contrix_offical").then(() => {
+                const target = document.getElementById('discordBox');
+                const oldContent = target.innerHTML;
+                target.innerHTML = '<span class="terminal-contact-label" style="color:#ffffff;">Успешно</span><span class="terminal-contact-tag" style="color:#ffffff;">[ СКОПИРОВАНО В БУФЕР ]</span>';
+                setTimeout(() => {
+                    target.innerHTML = oldContent;
+                    applyCursorHovers();
+                }, 1500);
+            });
+        }
+    </script>
+</body>
+</html>
