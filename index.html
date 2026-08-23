@@ -6,7 +6,7 @@
     <title>ContrixScripts | Tech Hub</title>
     <style>
         /* Кастомный футуристичный курсор с наивысшим приоритетом отображения */
-        body, button, a, div, span, li {
+        body, button, a, div, span, li, img {
             cursor: none !important;
         }
         #custom-cursor {
@@ -350,6 +350,28 @@
             font-size: 0.95rem;
             line-height: 1.6;
             font-style: italic;
+            margin-bottom: 25px;
+        }
+        
+        /* Контейнер для дополнительного изображения работы */
+        .review-work-attachment {
+            width: 100%;
+            margin-top: 10px;
+            border: 1px solid rgba(0, 210, 255, 0.15);
+            background: #02050e;
+            padding: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        .review-work-attachment img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .review-work-attachment:hover img {
+            transform: scale(1.03);
         }
 
         .card-tag {
@@ -709,7 +731,7 @@
                 </div>
             </div>
 
-            <!-- Вкладка 2: Портфолио -->
+            <!-- Вкладка 2: Проекты -->
             <div id="portfolio" class="panel-content">
                 <div class="portfolio-layout">
                     <div class="portfolio-card">
@@ -731,11 +753,18 @@
             <div id="reviews" class="panel-content">
                 <div class="reviews-layout">
                     <div class="review-card">
-                        <div class="review-user-block">
-                            <div class="review-avatar-generated">S</div>
-                            <div class="review-username">sewnner</div>
+                        <div>
+                            <div class="review-user-block">
+                                <div class="review-avatar-generated">S</div>
+                                <div class="review-username">sewnner</div>
+                            </div>
+                            <p class="review-text">Отлично, мне понравилось обучение. Научился быстро базе.</p>
                         </div>
-                        <p class="review-text">Отлично, мне понравилось обучение. Научился быстро базе.</p>
+                        
+                        <!-- Блок подключения дополнительной фотографии из папки отзывы -->
+                        <div class="review-work-attachment">
+                            <img src="отзывы/Отзыв1.png" alt="Выполненная работа sewnner">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -805,7 +834,7 @@
         });
 
         function applyCursorHovers() {
-            document.querySelectorAll('button, .terminal-contact, .switch-tab, li, .review-card').forEach(item => {
+            document.querySelectorAll('button, .terminal-contact, .switch-tab, li, .review-card, .review-work-attachment').forEach(item => {
                 item.addEventListener('mouseenter', () => {
                     dot.style.transform = 'translate(-50%, -50%) scale(2)';
                     dot.style.backgroundColor = '#ff007f';
