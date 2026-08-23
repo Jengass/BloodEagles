@@ -10,36 +10,37 @@
             cursor: none !important;
         }
         #custom-cursor {
-            width: 8px;
-            height: 8px;
-            background: #ff007f;
+            width: 6px;
+            height: 6px;
+            background: #00d2ff;
             border-radius: 50%;
             position: fixed;
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 200000;
             transition: width 0.2s, height 0.2s, background-color 0.2s;
+            box-shadow: 0 0 10px #00d2ff;
         }
         #custom-cursor-blur {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255, 0, 127, 0.4);
+            width: 35px;
+            height: 35px;
+            border: 1px solid rgba(0, 210, 255, 0.3);
             border-radius: 50%;
             position: fixed;
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 199999;
-            transition: transform 0.08s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
+            transition: transform 0.06s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
         }
 
-        /* Премиальный технологичный экран загрузки */
+        /* Экран технологичной предзагрузки */
         #preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #020105;
+            background: #020512;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -53,22 +54,21 @@
             font-size: 2.8rem;
             font-weight: 900;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(90deg, #ff007f, #7209b7, #4cc9f0);
+            background: linear-gradient(90deg, #00d2ff, #7f00ff, #ff007f);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 6px;
+            letter-spacing: 8px;
             margin-bottom: 30px;
             animation: pulse 1.8s infinite alternate, shineText 3s linear infinite;
         }
         .loader-bar {
-            width: 200px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.05);
+            width: 220px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.03);
             margin: 0 auto;
             position: relative;
             overflow: hidden;
-            border-radius: 2px;
         }
         .loader-line {
             position: absolute;
@@ -76,25 +76,34 @@
             top: 0;
             height: 100%;
             width: 0;
-            background: linear-gradient(90deg, #ff007f, #4cc9f0);
+            background: linear-gradient(90deg, #00d2ff, #ff007f);
             animation: loadProgress 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         @keyframes loadProgress {
             0% { width: 0%; }
             100% { width: 100%; }
         }
-        /* Окно динамического ротатора преимуществ */
+        /* Окно терминала преимуществ */
         .ticker-window {
-            background: rgba(114, 9, 183, 0.04);
-            border: 1px solid rgba(114, 9, 183, 0.25);
-            max-width: 450px;
-            margin: 20px auto 0 auto;
-            height: 45px;
+            background: linear-gradient(135deg, rgba(0, 210, 255, 0.03) 0%, rgba(127, 0, 255, 0.01) 100%);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            max-width: 500px;
+            margin: 30px auto 0 auto;
+            height: 48px;
             overflow: hidden;
-            border-radius: 4px;
+            border-radius: 0;
             position: relative;
             z-index: 10;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        .ticker-window::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, #00d2ff, transparent);
         }
         .ticker-wrapper {
             position: relative;
@@ -108,26 +117,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #4cc9f0;
+            letter-spacing: 2px;
+            color: #ffffff;
             opacity: 0;
-            transform: translateY(100%);
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
+            transform: scale(0.95) translateY(30%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
         }
         .ticker-item span {
             color: #ff007f;
-            margin-right: 8px;
+            font-family: monospace;
+            margin-right: 10px;
         }
         .ticker-item.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1) translateY(0);
         }
         .ticker-item.exit {
             opacity: 0;
-            transform: translateY(-100%);
+            transform: scale(0.95) translateY(-30%);
         }
 
         /* Фон и глобальная разметка */
@@ -135,12 +145,12 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-family: 'Segoe UI', -apple-system, sans-serif;
             user-select: none;
             -webkit-user-select: none;
         }
         body {
-            background-color: #040209;
+            background-color: #02040a;
             color: #ffffff;
             line-height: 1.6;
             overflow-x: hidden;
@@ -165,49 +175,48 @@
             margin: 0 auto;
             padding: 40px 20px;
         }
-
         /* Минималистичная технологичная шапка */
         header {
             text-align: center;
-            padding: 40px 0 30px 0;
+            padding: 50px 0 20px 0;
         }
         h1 {
-            font-size: 4rem;
+            font-size: 3.6rem;
             font-weight: 900;
-            background: linear-gradient(90deg, #ff007f, #b5179e, #7209b7, #4cc9f0);
+            background: linear-gradient(90deg, #00d2ff, #7f00ff, #ff007f);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             animation: shineText 6s linear infinite;
         }
         @keyframes shineText {
             to { background-position: 200% center; }
         }
         .tagline {
-            color: #797193;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
+            color: #53627c;
+            font-size: 1rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
             margin-top: 15px;
-            font-weight: 500;
-        }
-        /* Строгий информационный баннер */
-        .notice-banner {
-            background: rgba(255, 0, 127, 0.02);
-            border: 1px solid rgba(255, 0, 127, 0.2);
-            padding: 16px;
-            text-align: center;
-            color: #ff007f;
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 40px;
-            border-radius: 4px;
+            font-weight: 600;
         }
 
-        /* Модуль опыта */
+        /* Строгий информационный баннер */
+        .notice-banner {
+            background: rgba(0, 210, 255, 0.02);
+            border-left: 3px solid #00d2ff;
+            padding: 16px;
+            text-align: left;
+            color: #00d2ff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        /* Модуль стажа */
         .tech-experience {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -215,136 +224,130 @@
             margin-bottom: 60px;
         }
         .tech-box {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: #050a18;
+            border: 1px solid rgba(255, 255, 255, 0.03);
             padding: 30px;
-            border-radius: 4px;
+            border-radius: 0;
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
             position: relative;
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .tech-box:hover {
-            background: rgba(114, 9, 183, 0.03);
-            border-color: rgba(114, 9, 183, 0.4);
-            transform: translateY(-4px);
-        }
-        .tech-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ff007f;
-            transition: width 0.3s ease;
-        }
-        .tech-box:hover::before {
-            width: 40px;
+            background: #081126;
+            border-color: rgba(0, 210, 255, 0.3);
+            transform: translateY(-2px);
         }
         .tech-box h3 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #ffffff;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             letter-spacing: 1px;
         }
         .tech-box p {
-            color: #4cc9f0;
-            font-size: 0.95rem;
-            font-weight: 600;
+            color: #ff007f;
+            font-size: 0.9rem;
+            font-weight: 700;
             letter-spacing: 0.5px;
         }
 
         /* Вкладки навигации */
         .nav-switchers {
             display: flex;
-            gap: 10px;
+            gap: 5px;
             margin-bottom: 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 15px;
+            background: rgba(255, 255, 255, 0.01);
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            max-width: fit-content;
         }
         .switch-tab {
             background: transparent;
             border: none;
-            color: #5d5579;
-            padding: 10px 25px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            color: #4b5973;
+            padding: 10px 24px;
+            font-size: 0.85rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: all 0.3s ease;
-            position: relative;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
         }
         .switch-tab:hover {
             color: #ffffff;
         }
         .switch-tab.active {
-            color: #ff007f;
-        }
-        .switch-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -16px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #ff007f;
+            background: #00d2ff;
+            color: #02040a;
         }
         .panel-content {
             display: none;
-            animation: panelFade 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: panelFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .panel-content.active {
             display: block;
         }
         @keyframes panelFade {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Сетка цен и портфолио */
-        .service-layout, .portfolio-layout {
+        /* Сетка цен и асимметричные карточки */
+        .service-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .portfolio-layout {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 30px;
         }
         .service-card, .portfolio-card {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 6px;
+            background: #040914;
+            border: 1px solid rgba(255, 255, 255, 0.02);
             padding: 40px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
+            clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 0 100%);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .service-card:hover, .portfolio-card:hover {
-            border-color: rgba(255, 0, 127, 0.3);
-            background: rgba(4, 2, 9, 0.4);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            transform: translateY(-6px);
+            border-color: rgba(127, 0, 255, 0.4);
+            background: #060e22;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+        .card-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff007f;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
         }
         .card-header h2 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             margin-bottom: 15px;
             color: #ffffff;
         }
         .card-price {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #00d2ff;
+            margin-bottom: 25px;
+            font-family: monospace;
         }
         .card-price span {
             font-size: 1rem;
-            color: #5d5579;
+            color: #4b5973;
             font-weight: 400;
             margin-left: 5px;
         }
         .card-desc {
-            color: #9088ab;
+            color: #7b8ba6;
             font-size: 0.95rem;
             margin-bottom: 30px;
             min-height: 50px;
@@ -355,7 +358,7 @@
         }
         .tech-spec-list li {
             font-size: 0.9rem;
-            color: #c0b9da;
+            color: #a4b3cc;
             margin-bottom: 12px;
             padding-left: 20px;
             position: relative;
@@ -364,19 +367,47 @@
             content: '';
             position: absolute;
             left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 1px;
-            background: #4cc9f0;
+            top: 7px;
+            width: 4px;
+            height: 4px;
+            background: #00d2ff;
         }
-        /* Большое детализированное окно правил для покупателей */
+
+        /* Индустриальная кнопка со скошенными углами */
+        .action-trigger {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            padding: 16px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+        .action-trigger:hover {
+            background: #ffffff;
+            color: #02040a;
+            border-color: #ffffff;
+        }
+        .premium-trigger {
+            border-color: #ff007f;
+            color: #ff007f;
+        }
+        .premium-trigger:hover {
+            background: #ff007f;
+            color: #ffffff;
+            border-color: #ff007f;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.3);
+        }
+        /* Структура юридического свода правил */
         .rules-layout {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 6px;
+            background: #040914;
+            border: 1px solid rgba(255, 255, 255, 0.01);
             padding: 45px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .rules-section {
             margin-bottom: 35px;
@@ -385,33 +416,34 @@
             margin-bottom: 0;
         }
         .rules-section-title {
-            font-size: 1.15rem;
+            font-size: 1rem;
             font-weight: 700;
-            color: #ff007f;
+            color: #00d2ff;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 0, 127, 0.15);
             padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.1);
         }
         .rules-paragraph-list {
             list-style: none;
         }
         .rules-paragraph-list li {
             font-size: 0.95rem;
-            color: #b1a9cd;
+            color: #7b8ba6;
             margin-bottom: 12px;
             padding-left: 20px;
             position: relative;
             line-height: 1.7;
         }
         .rules-paragraph-list li::before {
-            content: '●';
+            content: '>';
             position: absolute;
             left: 0;
-            color: #4cc9f0;
-            font-size: 0.75rem;
-            top: 2px;
+            color: #ff007f;
+            font-family: monospace;
+            font-size: 0.9rem;
+            top: 0;
         }
         .rules-paragraph-list li strong {
             color: #ffffff;
@@ -423,37 +455,6 @@
             font-weight: 700;
         }
 
-        .action-trigger {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            padding: 16px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            width: 100%;
-            text-align: center;
-        }
-        .action-trigger:hover {
-            background: #ffffff;
-            color: #040209;
-            border-color: #ffffff;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-        }
-        .premium-trigger {
-            border-color: #ff007f;
-            color: #ff007f;
-        }
-        .premium-trigger:hover {
-            background: #ff007f;
-            color: #ffffff;
-            border-color: #ff007f;
-            box-shadow: 0 0 25px rgba(255, 0, 127, 0.4);
-        }
-
         /* Системный терминальный интерфейс модального окна */
         .system-overlay {
             display: none;
@@ -462,8 +463,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(2, 1, 5, 0.96);
-            backdrop-filter: blur(12px);
+            background: rgba(2, 4, 10, 0.97);
+            backdrop-filter: blur(10px);
             z-index: 100000;
             justify-content: center;
             align-items: center;
@@ -475,85 +476,79 @@
             opacity: 1;
         }
         .overlay-box {
-            background: #090611;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: #040914;
+            border: 1px solid rgba(0, 210, 255, 0.2);
             padding: 50px;
-            border-radius: 4px;
             max-width: 480px;
             width: 90%;
             text-align: center;
             position: relative;
-            transform: scale(0.95) translateY(10px);
+            transform: scale(0.96) translateY(10px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .system-overlay.active .overlay-box {
             transform: scale(1) translateY(0);
         }
         .overlay-box h2 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 20px;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
         .overlay-box p {
-            color: #9088ab;
+            color: #7b8ba6;
             font-size: 0.95rem;
             margin-bottom: 30px;
         }
         
-        /* Продвинутая плашка Discord */
+        /* Архитектура плашки Discord */
         .terminal-contact {
-            background: linear-gradient(135deg, #0d091f, #040209);
-            padding: 20px;
-            border-radius: 6px;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 1.1rem;
-            color: #ffffff;
-            font-weight: 600;
+            background: #02050d;
+            padding: 22px;
             margin-bottom: 35px;
-            border: 1px solid rgba(114, 9, 183, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             position: relative;
-            overflow: hidden;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
         .terminal-contact-label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             color: #ff007f;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
             font-family: monospace;
         }
         .terminal-contact-tag {
-            color: #4cc9f0;
+            color: #00d2ff;
             font-family: monospace;
             font-size: 1.3rem;
             letter-spacing: 1px;
+            font-weight: bold;
         }
         .terminal-contact:hover {
-            border-color: #ff007f;
-            box-shadow: 0 0 25px rgba(255, 0, 127, 0.25);
-            background: linear-gradient(135deg, #160f33, #070412);
+            border-color: #00d2ff;
+            background: #040b1a;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.15);
         }
         .terminal-contact::after {
-            content: "Клик для копирования";
+            content: "[ COPY TO CLIPBOARD ]";
             position: absolute;
             bottom: 4px;
             right: 10px;
-            font-size: 0.65rem;
-            color: #5d5579;
-            text-transform: uppercase;
-            font-family: sans-serif;
+            font-size: 0.6rem;
+            color: #4b5973;
+            font-family: monospace;
+            letter-spacing: 1px;
         }
 
         .exit-trigger {
             background: transparent;
             border: none;
-            color: #5d5579;
-            font-size: 0.85rem;
+            color: #4b5973;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             text-decoration: underline;
@@ -562,14 +557,12 @@
             color: #ffffff;
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
         @keyframes pulse { 0% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <!-- Элементы кастомного интерфейса -->
+    <!-- Элементы каркасного интерфейса -->
     <div id="custom-cursor"></div>
     <div id="custom-cursor-blur"></div>
     <canvas id="bg-canvas"></canvas>
@@ -581,13 +574,13 @@
         </div>
     </div>
 
-    <!-- Окно анимационного ротатора преимуществ (смена каждые 5 сек) -->
+    <!-- Окно командного терминала (смена каждые 5 сек) -->
     <div class="ticker-window">
         <div class="ticker-wrapper" id="tickerWrapper">
-            <div class="ticker-item active"><span>■</span> Выгодные расценки</div>
-            <div class="ticker-item"><span>■</span> Эксклюзивные 3D-модели</div>
-            <div class="ticker-item"><span>■</span> Гарантированная чистая оптимизация</div>
-            <div class="ticker-item"><span>■</span> Безопасность сделок по договору</div>
+            <div class="ticker-item active"><span>SYS //</span> Выгодные расценки</div>
+            <div class="ticker-item"><span>SYS //</span> Эксклюзивные 3D-модели</div>
+            <div class="ticker-item"><span>SYS //</span> Гарантированная чистая оптимизация</div>
+            <div class="ticker-item"><span>SYS //</span> Безопасность сделок по договору</div>
         </div>
     </div>
 
@@ -599,7 +592,7 @@
 
         <div class="container">
             <div class="notice-banner">
-                Внимание: скидочные программы не предусмотрены для всех типов услуг
+                ВНИМАНИЕ: СКИДОЧНЫЕ ПРОГРАММЫ НЕ ПРЕДУСМАТРИВАЮТСЯ ДЛЯ ВСЕХ ТИПОВ УСЛУГ
             </div>
 
             <section class="tech-experience">
@@ -618,41 +611,68 @@
             </section>
 
             <div class="nav-switchers">
-                <button class="switch-tab active" onclick="changePanel('pricing')">Услуги и Тарифы</button>
-                <button class="switch-tab" onclick="changePanel('portfolio')">Реализованные Проекты</button>
+                <button class="switch-tab active" onclick="changePanel('pricing')">Услуги</button>
+                <button class="switch-tab" onclick="changePanel('portfolio')">Проекты</button>
                 <button class="switch-tab" onclick="changePanel('rules')">Правила</button>
             </div>
 
             <!-- Вкладка 1: Тарифы -->
             <div id="pricing" class="panel-content active">
                 <div class="service-layout">
+                    <!-- Услуга 1: Скрипты -->
                     <div class="service-card">
-                        <div class="card-header">
-                            <h2>Различные Скрипты</h2>
-                            <div class="card-price">от 500₽<span>+</span></div>
-                            <div class="card-desc">Создание модульных скриптов под индивидуальные технические требования.</div>
+                        <div>
+                            <span class="card-tag">Программное обеспечение</span>
+                            <div class="card-header">
+                                <h2>Различные Скрипты</h2>
+                                <div class="card-price">от 500₽<span>+</span></div>
+                                <div class="card-desc">Создание модульных скриптов под индивидуальные технические требования.</div>
+                            </div>
+                            <ul class="tech-spec-list">
+                                <li>Официальное подписание соглашения сторон</li>
+                                <li>Чистая программная архитектура</li>
+                                <li>Полное документирование логики кода</li>
+                                <li>Комплексное устранение неисправностей</li>
+                            </ul>
                         </div>
-                        <ul class="tech-spec-list">
-                            <li>Официальное подписание соглашения сторон</li>
-                            <li>Чистая программная архитектура</li>
-                            <li>Полное документирование логики кода</li>
-                            <li>Комплексное устранение неисправностей</li>
-                        </ul>
                         <button class="action-trigger" onclick="launchModal('Спецификация: Скрипты')">Контракт</button>
                     </div>
 
+                    <!-- Услуга 2: Обучение (Новая услуга) -->
                     <div class="service-card">
-                        <div class="card-header">
-                            <h2>Карта RP Города</h2>
-                            <div class="card-price">от 2500₽<span>+</span></div>
-                            <div class="card-desc">Разработка структуры мегаполиса со специализированной разметкой объектов.</div>
+                        <div>
+                            <span class="card-tag">Образовательный курс</span>
+                            <div class="card-header">
+                                <h2>Обучение на Luau</h2>
+                                <div class="card-price">750₽<span> / 7 дней</span></div>
+                                <div class="card-desc">Интенсивный недельный курс по программированию скриптов на языке Luau.</div>
+                            </div>
+                            <ul class="tech-spec-list">
+                                <li>Официальное подписание соглашения сторон</li>
+                                <li>Изучение основ синтаксиса и алгоритмов</li>
+                                <li>Разбор практических кейсов и задач</li>
+                                <li>Консультации и разбор ошибок от ментора</li>
+                            </ul>
                         </div>
-                        <ul class="tech-spec-list">
-                            <li>Официальное подписание соглашения сторон</li>
-                            <li>Уникальный план зонирования кварталов</li>
-                            <li>Эксклюзивные авторские трехмерные модели</li>
-                            <li>Оптимизация под высокие нагрузки графики</li>
-                        </ul>
+                        <button class="action-trigger" onclick="launchModal('Спецификация: Обучение Luau')">Контракт</button>
+                    </div>
+
+                    <!-- Услуга 3: Карта -->
+                    <div class="service-card">
+                        <div>
+                            <span class="card-tag">Окружение и геометрия</span>
+                            <div class="card-header">
+                                <h2>Карта RP Города</h2>
+                                <div class="card-price">от 2500₽<span>+</span></div>
+                                <div class="card-desc">Разработка структуры мегаполиса со специализированной разметкой объектов.</div>
+                            </div>
+                            <ul class="tech-spec-list">
+                                <li>Официальное подписание соглашения сторон</li>
+                                <li>Уникальный план зонирования кварталов</li>
+                                <li>Эксклюзивные авторские трехмерные модели</li>
+                                <li>Оптимизация под высокие нагрузки графики</li>
+                            </ul>
+                        </div>
                         <button class="action-trigger premium-trigger" onclick="launchModal('Спецификация: RP Карта')">Контракт</button>
                     </div>
                 </div>
@@ -682,7 +702,7 @@
                     <div class="rules-section">
                         <div class="rules-section-title">1. Политика возврата денежных средств</div>
                         <ul class="rules-paragraph-list">
-                            <li>Возврат финансовых средств <mark>категорически не производится</mark> после того, как исполнитель утвердил техническое задание и приступил к написанию кода или моделированию.</li>
+                            <li>Возврат финансовых средств <mark>категорически не производится</mark> после того, как исполнитель утвердил техническое задание и приступил к написанию кода, обучению или моделированию.</li>
                             <li>Покупатель соглашается с тем, что потраченное время разработчика и бронирование слота под проект компенсируются в полном объёме за счёт первичных взносов или обязательств, аннулируя возможность возврата.</li>
                         </ul>
                     </div>
@@ -692,14 +712,14 @@
                         <ul class="rules-paragraph-list">
                             <li>Разработка строится строго по прозрачному поэтапному циклу: <strong>Сначала демонстрация готового продукта $\rightarrow$ Затем оплата $\rightarrow$ Затем передача файлов</strong>.</li>
                             <li>Исполнитель полностью разрабатывает скрипт или карту, предоставляет детальные видеоматериалы или организует демонстрационный показ на тестовом сервере.</li>
-                            <li>Покупатель, убедившись в полном соответствии выполненной работы изначально утверждённому ТЗ, производит <strong>100% оплату</strong>, после чего получает исходный код или архивы с моделями.</li>
+                            <li>Покупатель, убедившись в полном соответствии выполненной работы изначально утверждённому ТЗ, производит <strong>100% оплату</strong>, после чего получает исходный код или архивы с моделированием.</li>
                         </ul>
                     </div>
 
                     <div class="rules-section">
                         <div class="rules-section-title">3. Техническое задание и внесение изменений</div>
                         <ul class="rules-paragraph-list">
-                            <li>Все требования к проекту должны быть зафиксированы в письменном виде до начала работы. Любые устные договорённости не имеют юридической и фактической силы.</li>
+                            <li>Все требования к проекту (включая план и темы для обучения) должны быть зафиксированы в письменном виде до начала работы. Любые устные договорённости не имеют силы.</li>
                             <li>Правки, направленные на исправление несоответствий с изначальным ТЗ, выполняются <strong>бесплатно</strong> в рамках договора.</li>
                             <li>Любые новые идеи, расширения функционала, добавление новых систем или изменение структуры карты, возникшие в процессе работы или после её демонстрации, <mark>оплачиваются отдельно</mark> по новому тарифу.</li>
                         </ul>
@@ -716,7 +736,7 @@
         <div class="overlay-box">
             <h2 id="modalHeadline">Регистрация сделки</h2>
             <p>Любые коммерческие взаимодействия осуществляются строго на основании договора сторон, определяющего фиксированную стоимость и регламент сдачи задач.</p>
-            <p style="color: #5d5579; font-size: 0.85rem; margin-bottom: 12px;">Для отправки технического задания скопируйте имя аккаунта в Discord и создайте чат:</p>
+            <p style="color: #4b5973; font-size: 0.85rem; margin-bottom: 12px;">Для отправки технического задания скопируйте имя аккаунта в Discord и создайте чат:</p>
             
             <div class="terminal-contact" id="discordBox" onclick="processCopy()">
                 <span class="terminal-contact-label">Официальный контактный аккаунт</span>
@@ -731,7 +751,6 @@
         const dot = document.getElementById('custom-cursor');
         const blur = document.getElementById('custom-cursor-blur');
         
-        // Постоянное отслеживание координат кастомного курсора в любой точке
         document.addEventListener('mousemove', (e) => {
             dot.style.left = e.clientX + 'px';
             dot.style.top = e.clientY + 'px';
@@ -741,46 +760,40 @@
             }, 30);
         });
 
-        // Функция обновления событий наведения для динамических и статических элементов
         function applyCursorHovers() {
             document.querySelectorAll('button, .terminal-contact, .switch-tab, li').forEach(item => {
                 item.addEventListener('mouseenter', () => {
                     dot.style.transform = 'translate(-50%, -50%) scale(2)';
-                    dot.style.backgroundColor = '#4cc9f0';
-                    blur.style.width = '55px';
-                    blur.style.height = '55px';
-                    blur.style.borderColor = '#4cc9f0';
+                    dot.style.backgroundColor = '#ff007f';
+                    blur.style.width = '50px';
+                    blur.style.height = '50px';
+                    blur.style.borderColor = '#ff007f';
                 });
                 item.addEventListener('mouseleave', () => {
                     dot.style.transform = 'translate(-50%, -50%) scale(1)';
-                    dot.style.backgroundColor = '#ff007f';
-                    blur.style.width = '40px';
-                    blur.style.height = '40px';
-                    blur.style.borderColor = 'rgba(255, 0, 127, 0.4)';
+                    dot.style.backgroundColor = '#00d2ff';
+                    blur.style.width = '35px';
+                    blur.style.height = '35px';
+                    blur.style.borderColor = 'rgba(0, 210, 255, 0.3)';
                 });
             });
         }
         applyCursorHovers();
 
-        // Логика работы автоматического ротатора окна преимуществ (каждые 5 сек)
         const tickerItems = document.querySelectorAll('.ticker-item');
         let currentTickerIndex = 0;
 
         setInterval(() => {
             let nextIndex = (currentTickerIndex + 1) % tickerItems.length;
-            
             tickerItems[currentTickerIndex].classList.remove('active');
             tickerItems[currentTickerIndex].classList.add('exit');
-            
             tickerItems[nextIndex].classList.add('active');
-            
             setTimeout(() => {
                 tickerItems[currentTickerIndex].classList.remove('exit');
                 currentTickerIndex = nextIndex;
-            }, 600);
+            }, 500);
         }, 5000);
 
-        // Движок частиц Canvas
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -809,7 +822,7 @@
                 if(this.y < 0) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = 'rgba(114, 9, 183, 0.15)';
+                ctx.fillStyle = 'rgba(0, 210, 255, 0.1)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -841,7 +854,6 @@
             applyCursorHovers();
         }
 
-        // Продвинутая защита исходного кода
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
             if (e.key === 'F12' || 
