@@ -32,7 +32,6 @@
             z-index: 199999;
             transition: transform 0.06s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
         }
-
         /* Экран технологичной предзагрузки */
         #preloader {
             position: fixed;
@@ -83,6 +82,7 @@
             0% { width: 0%; }
             100% { width: 100%; }
         }
+
         /* Окно терминала преимуществ */
         .ticker-window {
             background: linear-gradient(135deg, rgba(0, 210, 255, 0.03) 0%, rgba(127, 0, 255, 0.01) 100%);
@@ -139,7 +139,6 @@
             opacity: 0;
             transform: scale(0.95) translateY(-30%);
         }
-
         /* Фон и глобальная разметка */
         * {
             box-sizing: border-box;
@@ -175,6 +174,7 @@
             margin: 0 auto;
             padding: 40px 20px;
         }
+
         /* Минималистичная технологичная шапка */
         header {
             text-align: center;
@@ -250,7 +250,6 @@
             font-weight: 700;
             letter-spacing: 0.5px;
         }
-
         /* Вкладки навигации */
         .nav-switchers {
             display: flex;
@@ -290,18 +289,19 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Сетка цен и асимметричные карточки */
+
+        /* Сетка цен, портфолио и отзывов */
         .service-layout {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
-        .portfolio-layout {
+        .portfolio-layout, .reviews-layout {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 30px;
         }
-        .service-card, .portfolio-card {
+        .service-card, .portfolio-card, .review-card {
             background: #040914;
             border: 1px solid rgba(255, 255, 255, 0.02);
             padding: 40px;
@@ -312,11 +312,46 @@
             clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 0 100%);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .service-card:hover, .portfolio-card:hover {
+        .service-card:hover, .portfolio-card:hover, .review-card:hover {
             border-color: rgba(127, 0, 255, 0.4);
             background: #060e22;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
+        /* Стили плашки отзывов */
+        .review-user-block {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .review-avatar-generated {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #00d2ff, #7f00ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-family: monospace;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .review-username {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+        .review-text {
+            color: #a4b3cc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
         .card-tag {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -373,7 +408,7 @@
             background: #00d2ff;
         }
 
-        /* Индустриальная кнопка со скошенными углами */
+        /* Кнопка */
         .action-trigger {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -403,7 +438,8 @@
             border-color: #ff007f;
             box-shadow: 0 0 20px rgba(255, 0, 127, 0.3);
         }
-        /* Структура юридического свода правил */
+
+        /* Юридический свод правил */
         .rules-layout {
             background: #040914;
             border: 1px solid rgba(255, 255, 255, 0.01);
@@ -454,7 +490,6 @@
             color: #ff007f;
             font-weight: 700;
         }
-
         /* Системный терминальный интерфейс модального окна */
         .system-overlay {
             display: none;
@@ -503,7 +538,7 @@
             margin-bottom: 30px;
         }
         
-        /* Архитектура плашки Discord */
+        /* Плашка Discord */
         .terminal-contact {
             background: #02050d;
             padding: 22px;
@@ -562,7 +597,6 @@
 </head>
 <body>
 
-    <!-- Элементы каркасного интерфейса -->
     <div id="custom-cursor"></div>
     <div id="custom-cursor-blur"></div>
     <canvas id="bg-canvas"></canvas>
@@ -574,7 +608,7 @@
         </div>
     </div>
 
-    <!-- Окно командного терминала (смена каждые 5 сек) -->
+    <!-- Ротатор преимуществ -->
     <div class="ticker-window">
         <div class="ticker-wrapper" id="tickerWrapper">
             <div class="ticker-item active"><span>SYS //</span> Выгодные расценки</div>
@@ -613,13 +647,12 @@
             <div class="nav-switchers">
                 <button class="switch-tab active" onclick="changePanel('pricing')">Услуги</button>
                 <button class="switch-tab" onclick="changePanel('portfolio')">Проекты</button>
+                <button class="switch-tab" onclick="changePanel('reviews')">Отзывы</button>
                 <button class="switch-tab" onclick="changePanel('rules')">Правила</button>
             </div>
-
             <!-- Вкладка 1: Тарифы -->
             <div id="pricing" class="panel-content active">
                 <div class="service-layout">
-                    <!-- Услуга 1: Скрипты -->
                     <div class="service-card">
                         <div>
                             <span class="card-tag">Программное обеспечение</span>
@@ -638,7 +671,6 @@
                         <button class="action-trigger" onclick="launchModal('Спецификация: Скрипты')">Контракт</button>
                     </div>
 
-                    <!-- Услуга 2: Обучение (Новая услуга) -->
                     <div class="service-card">
                         <div>
                             <span class="card-tag">Образовательный курс</span>
@@ -649,7 +681,7 @@
                             </div>
                             <ul class="tech-spec-list">
                                 <li>Официальное подписание соглашения сторон</li>
-                                <li>Изучение основ синтаксиса и алгоритмов</li>
+                                <li>Изучение основы синтаксиса и алгоритмов</li>
                                 <li>Разбор практических кейсов и задач</li>
                                 <li>Консультации и разбор ошибок от ментора</li>
                             </ul>
@@ -657,7 +689,6 @@
                         <button class="action-trigger" onclick="launchModal('Спецификация: Обучение Luau')">Контракт</button>
                     </div>
 
-                    <!-- Услуга 3: Карта -->
                     <div class="service-card">
                         <div>
                             <span class="card-tag">Окружение и геометрия</span>
@@ -695,7 +726,20 @@
                     </div>
                 </div>
             </div>
-            <!-- Вкладка 3: Большое окно правил -->
+
+            <!-- Вкладка 3: Отзывы -->
+            <div id="reviews" class="panel-content">
+                <div class="reviews-layout">
+                    <div class="review-card">
+                        <div class="review-user-block">
+                            <div class="review-avatar-generated">S</div>
+                            <div class="review-username">sewnner</div>
+                        </div>
+                        <p class="review-text">Отлично, мне понравилось обучение. Научился быстро базе.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Вкладка 4: Большое окно правил -->
             <div id="rules" class="panel-content">
                 <div class="rules-layout">
                     
@@ -761,7 +805,7 @@
         });
 
         function applyCursorHovers() {
-            document.querySelectorAll('button, .terminal-contact, .switch-tab, li').forEach(item => {
+            document.querySelectorAll('button, .terminal-contact, .switch-tab, li, .review-card').forEach(item => {
                 item.addEventListener('mouseenter', () => {
                     dot.style.transform = 'translate(-50%, -50%) scale(2)';
                     dot.style.backgroundColor = '#ff007f';
